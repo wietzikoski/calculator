@@ -1,0 +1,58 @@
+/* Global styles */
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Calculator container */
+.calculator {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr); /* Creates a 4-column grid */
+  gap: 4px; /* Space between the grid cells */
+  max-width: 160px; /* Maximum width for the calculator */
+}
+
+/* Calculator display */
+.display {
+  grid-column: 1 / -1;
+  background-color: #ccc;
+  padding: 12px;
+  text-align: right;
+  overflow: hidden; /* Prevent text from overflowing */
+  text-overflow: ellipsis; /* Add "..." when the text overflows */
+  white-space: nowrap; /* Keep the text in a single line */
+  max-width: 100%; /* Set the maximum width of the display */
+}
+
+/* Button styles */
+button {
+  padding: 16px;
+  font-size: 18px;
+  border: none;
+}
+.zero {
+  grid-column: 1 / 3;
+}
+.plus {
+  grid-row: 4/ 6;
+  grid-column: 4;
+}
+
+/* Button active state */
+button:active {
+  background-color: #ccc;
+}
+
+/* Clear button */
+.clear {
+  /* grid-column: 1 / 3; Span across the first two columns */
+}
+
+/* Decimal button */
+.decimal {
+  /* grid-column: 3; Position the decimal button in the third column */
+}
