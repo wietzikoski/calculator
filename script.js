@@ -47,10 +47,24 @@ const equalsBtn = document.querySelector(".equals");
 let currentValue = "";
 let storedValue = null;
 let currentOperator = null;
+let resultDisplayed = false;
 
 // Function to update the calculator display
 function updateDisplay(value) {
   display.textContent = value;
+}
+
+// Function to handle digit button clicks
+function handleDigitClick(e) {
+  // If the result is displayed, clear the current value before appending the new digit
+  if (resultDisplayed) {
+    currentValue = "";
+    resultDisplayed = false;
+  }
+
+  // Append the clicked digit to the current value and update the display
+  currentValue += e.target.textContent;
+  updateDisplay(currentValue);
 }
 
 // Function to handle digit button clicks
@@ -71,6 +85,25 @@ function handleOperatorClick(e) {
   storedValue = currentValue;
   currentValue = "";
   currentOperator = e.target.dataset.operator;
+
+  // Display the stored value and the operator symbol
+  updateDisplay(`${storedValue} ${e.target.textContent}`);
+}
+
+
+// Function to handle equals button clicks
+function handleEqualsClick() {
+  // If an operator is selected and a stored value exists, calculate the result
+  if (currentOperator && storedValue !== null) {
+    currentValue = String(operate(currentOperator, parseFloat(storedValue), parseFloat(currentValue)));
+    updateDisplay(currentValue);
+    // Reset the stored value and current operator
+    storedValue = null;
+    currentOperator = null;
+
+    // Set resultDisplayed to true after showing the result
+    resultDisplayed = true;
+  }
 }
 
 // Function to handle clear button clicks
@@ -102,11 +135,29 @@ function handleDecimalClick() {
 function handleEqualsClick() {
   // If an operator is selected and a stored value exists, calculate the result
   if (currentOperator && storedValue !== null) {
-    currentValue = String(operate(currentOperator, parseFloat(storedValue), parseFloat(currentValue)));
-    updateDisplay(currentValue);
+    const result = String(operate(currentOperator, parseFloat(storedValue), parseFloat(currentValue)));
+    // Display the equation and the result
+    updateDisplay(`${storedValue} ${getOperatorSymbol(currentOperator)} ${currentValue} = ${result}`);
+
     // Reset the stored value and current operator
+    currentValue = result;
     storedValue = null;
     currentOperator = null;
+    resultDisplayed = true;
+  }
+}
+
+// Helper function to get the operator symbol from the dataset operator
+function getOperatorSymbol(operator) {
+  switch (operator) {
+    case 'add':
+      return '+';
+    case 'subtract':
+      return '-';
+    case 'multiply':
+      return '*';
+    case 'divide':
+      return '/';
   }
 }
 
